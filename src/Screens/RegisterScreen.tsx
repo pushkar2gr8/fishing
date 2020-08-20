@@ -1,5 +1,12 @@
 import React, {memo, useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -9,12 +16,17 @@ import BackButton from '../components/BackButton';
 import {theme} from '../core/theme';
 import {emailValidator, passwordValidator, nameValidator} from '../core/utils';
 
+import AsyncStorage from '@react-native-community/async-storage';
+import auth from '@react-native-firebase/auth';
+import {Loader} from '../components/Loader';
+
 const RegisterScreen = ({navigation}: any) => {
   const [name, setName] = useState({value: '', error: ''});
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
+  const [loading, setLoading] = useState({isLoading: false});
 
-  const _onSignUpPressed = () => {
+  const _onSignUpPressed = async () => {
     const nameError = nameValidator(name.value);
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
@@ -24,9 +36,33 @@ const RegisterScreen = ({navigation}: any) => {
       setEmail({...email, error: emailError});
       setPassword({...password, error: passwordError});
       return;
+    } else {
+      setLoading({isLoading: true});
+      try {
+        auth()
+          .signInWithEmailAndPassword(email.value, password.value)
+          .then((res) => {
+            AsyncStorage.setItem('firebaseUid', res.user.uid);
+            setLoading({isLoading: false});
+            navigation.navigate('LoginScreen');
+          })
+          .catch((err) =>
+            auth()
+              .createUserWithEmailAndPassword(email.value, password.value)
+              .then((res) => {
+                AsyncStorage.setItem('firebaseUid', res.user.uid);
+                setLoading({isLoading: false});
+                navigation.navigate('Dashboard');
+              })
+              .catch((error) => {
+                setLoading({isLoading: false});
+                console.log('Error......' + error);
+              }),
+          );
+      } catch (e) {
+        setLoading({isLoading: false});
+      }
     }
-
-    navigation.navigate('Dashboard');
   };
 
   return (
@@ -36,6 +72,8 @@ const RegisterScreen = ({navigation}: any) => {
       <Logo />
 
       <Header>Create Account</Header>
+
+      <Loader isLoading={loading.isLoading} />
 
       <TextInput
         label="Name"
@@ -68,6 +106,8 @@ const RegisterScreen = ({navigation}: any) => {
         errorText={password.error}
         secureTextEntry
       />
+
+      {console.log(loading.isLoading)}
 
       <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
         Sign Up

@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity, StyleSheet, Text, View, Alert} from 'react-native';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -8,10 +8,14 @@ import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import {theme} from '../core/theme';
 import {emailValidator, passwordValidator} from '../core/utils';
+import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-community/async-storage';
+import {Loader} from '../components/Loader';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
+  const [loading, setLoading] = useState({isLoading: false});
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -21,9 +25,20 @@ const LoginScreen = ({navigation}) => {
       setEmail({...email, error: emailError});
       setPassword({...password, error: passwordError});
       return;
+    } else {
+      setLoading({isLoading: true});
+      auth()
+        .signInWithEmailAndPassword(email.value, password.value)
+        .then((res) => {
+          AsyncStorage.setItem('firebaseUid', res.user.uid);
+          setLoading({isLoading: false});
+          navigation.navigate('Dashboard');
+        })
+        .catch((e) => {
+          setLoading({isLoading: false});
+          Alert.alert('Invalid credentials');
+        });
     }
-
-    navigation.navigate('Dashboard');
   };
 
   return (
@@ -31,6 +46,8 @@ const LoginScreen = ({navigation}) => {
       <Logo />
 
       <Header>Profishing</Header>
+
+      <Loader isLoading={loading.isLoading} />
 
       <TextInput
         label="Email"
