@@ -20,6 +20,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 import {Loader} from '../components/Loader';
 
+import database from '@react-native-firebase/database';
+
 const RegisterScreen = ({navigation}: any) => {
   const [name, setName] = useState({value: '', error: ''});
   const [email, setEmail] = useState({value: '', error: ''});
@@ -51,6 +53,14 @@ const RegisterScreen = ({navigation}: any) => {
               .createUserWithEmailAndPassword(email.value, password.value)
               .then((res) => {
                 AsyncStorage.setItem('firebaseUid', res.user.uid);
+
+                database()
+                  .ref('/users/' + res.user.uid)
+                  .push()
+                  .set({
+                    name: name.value,
+                    image: [],
+                  });
                 setLoading({isLoading: false});
                 navigation.navigate('Dashboard');
               })
@@ -106,8 +116,6 @@ const RegisterScreen = ({navigation}: any) => {
         errorText={password.error}
         secureTextEntry
       />
-
-      {console.log(loading.isLoading)}
 
       <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
         Sign Up
