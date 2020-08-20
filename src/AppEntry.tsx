@@ -9,7 +9,7 @@ class AppEntry extends Component {
   }
 
   render() {
-    return <AppStack routeName={'HomeScreen'} />;
+    return <AppStack routeName={'LoginScreen'} />;
   }
 }
 

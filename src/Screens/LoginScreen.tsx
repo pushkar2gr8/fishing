@@ -28,11 +28,9 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate('HomeScreen')} />
-
       <Logo />
 
-      <Header>Welcome back.</Header>
+      <Header>Profishing</Header>
 
       <TextInput
         label="Email"
@@ -68,12 +66,12 @@ const LoginScreen = ({navigation}) => {
         Login
       </Button>
 
-      {/* <View style={styles.row}>
+      <View style={styles.row}>
         <Text style={styles.label}>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </Background>
   );
 };
