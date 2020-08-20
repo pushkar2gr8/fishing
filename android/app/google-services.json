@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "917112354013",
+    "firebase_url": "https://fishing-fb1ec.firebaseio.com",
+    "project_id": "fishing-fb1ec",
+    "storage_bucket": "fishing-fb1ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917112354013:android:58ffab9590520a3e025734",
+        "android_client_info": {
+          "package_name": "com.fishing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "917112354013-avu0m1kaob50ke9l8s3o9f834urlgq67.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq2MeBjxLzyxDMXk947enPwbexkHst-cY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "917112354013-avu0m1kaob50ke9l8s3o9f834urlgq67.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "917112354013-gu892154qh6jr5s8gjrjr5pvavdtqqcq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fishing"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
