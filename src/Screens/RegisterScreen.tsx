@@ -40,6 +40,7 @@ const RegisterScreen = ({navigation}: any) => {
       return;
     } else {
       setLoading({isLoading: true});
+      AsyncStorage.setItem('name', name.value);
       try {
         auth()
           .signInWithEmailAndPassword(email.value, password.value)
@@ -54,13 +55,13 @@ const RegisterScreen = ({navigation}: any) => {
               .then((res) => {
                 AsyncStorage.setItem('firebaseUid', res.user.uid);
 
+                database().ref('/users/').push().set({
+                  name: name.value,
+                  image: '',
+                });
                 database()
-                  .ref('/users/' + res.user.uid)
-                  .push()
-                  .set({
-                    name: name.value,
-                    image: [],
-                  });
+                  .ref('/usersInfo/' + res.user.uid)
+                  .push(name.value);
                 setLoading({isLoading: false});
                 navigation.navigate('Dashboard');
               })

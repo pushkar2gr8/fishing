@@ -1,17 +1,22 @@
 import React, {memo} from 'react';
 import {TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-const BackButton = ({goBack}) => (
-  <TouchableOpacity onPress={goBack} style={styles.container}>
+interface Props {
+  onPress: Function;
+}
+
+const BackButton = (props: Props) => (
+  <TouchableOpacity onPress={props.onPress} style={styles.container}>
     <Image style={styles.image} source={require('../assets/arrow_back.png')} />
   </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 10 + 50,
-    left: 10,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
     width: 24,

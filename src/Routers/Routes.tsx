@@ -16,6 +16,7 @@ import {Avatar} from 'react-native-paper';
 import {Image, Text} from 'react-native';
 import {theme} from '../core/theme';
 import Friends from '../Screens/Friends';
+import WallDetails from '../Screens/WallDetails';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -80,7 +81,7 @@ const AppStack = (props: StackNavigatorProps) => {
         name={'ForgotPasswordScreen'}
         component={ForgotPasswordScreen}
       />
-
+      <Stack.Screen name={'Details'} component={WallDetails} />
       <Stack.Screen name={'Dashboard'} component={Tabs} />
     </Stack.Navigator>
   );

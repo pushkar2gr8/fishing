@@ -1,15 +1,25 @@
 import React, {Component} from 'react';
 import Background from '../components/Background';
-import {Text, FlatList, View, SafeAreaView, Dimensions} from 'react-native';
+import {
+  Text,
+  FlatList,
+  View,
+  SafeAreaView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 
 import database from '@react-native-firebase/database';
 import {theme} from '../core/theme';
+import AppModal from '../components/AppModal';
 
 class Friends extends Component {
   constructor(props: any) {
     super(props);
     this.state = {
       friendList: [],
+      isModalVisible: false,
+      name: '',
     };
 
     this.loadFriends();
@@ -19,16 +29,15 @@ class Friends extends Component {
     database()
       .ref('/users')
       .on('value', (snapshot: any) => {
+        let tempArr: Array<any>;
+        tempArr = [];
         let obj = snapshot.val();
         for (let key in obj) {
-          for (let userKey in obj[key]) {
-            this.state.friendList.push({
-              name: obj[key][userKey].name,
-            });
-          }
+          tempArr.push({
+            name: obj[key].name,
+          });
         }
-        this.setState({friendList: this.state.friendList});
-        // console.log('User data: ', snapshot.val());
+        this.setState({friendList: tempArr});
       });
   };
 
@@ -44,10 +53,9 @@ class Friends extends Component {
             extraData={this.state.friendList}
             numColumns={3}
             renderItem={({item}) => (
-              <View
+              <TouchableOpacity
                 style={{
-                  height: 100,
-                  width: 100,
+                  flex: 1,
                   backgroundColor: '#fff',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -57,7 +65,10 @@ class Friends extends Component {
                   shadowRadius: 2,
                   elevation: 2,
                   margin: 5,
-                }}>
+                }}
+                onPress={() =>
+                  this.setState({isModalVisible: true, name: item.name})
+                }>
                 <View
                   style={{
                     height: 40,
@@ -79,9 +90,16 @@ class Friends extends Component {
                 <View style={{flex: 1}}>
                   <Text>{item.name}</Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
             keyExtractor={(item, index) => 'key' + index}
+          />
+          <AppModal
+            name={this.state.name}
+            isVisible={this.state.isModalVisible}
+            onDismiss={() =>
+              this.setState({isModalVisible: !this.state.isModalVisible})
+            }
           />
         </SafeAreaView>
       </Background>

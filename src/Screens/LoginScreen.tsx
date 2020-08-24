@@ -11,6 +11,7 @@ import {emailValidator, passwordValidator} from '../core/utils';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Loader} from '../components/Loader';
+import database from '@react-native-firebase/database';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState({value: '', error: ''});
@@ -31,8 +32,20 @@ const LoginScreen = ({navigation}) => {
         .signInWithEmailAndPassword(email.value, password.value)
         .then((res) => {
           AsyncStorage.setItem('firebaseUid', res.user.uid);
-          setLoading({isLoading: false});
-          navigation.navigate('Dashboard');
+          database()
+            .ref('/usersInfo/' + res.user.uid)
+            .once('value')
+            .then(async (snapshot) => {
+              for (let key in snapshot.val()) {
+                console.log(snapshot.val()[key]);
+                AsyncStorage.setItem('name', snapshot.val()[key])
+                  .then(() => {
+                    setLoading({isLoading: false});
+                    navigation.navigate('Dashboard');
+                  })
+                  .catch((e) => console.log(e));
+              }
+            });
         })
         .catch((e) => {
           setLoading({isLoading: false});
