@@ -41,10 +41,12 @@ class HomeScreen extends Component {
         .on('value', (snapshot: any) => {
           let obj = snapshot.val();
           for (let key in obj) {
-            tempArr.push({
-              name: obj[key].name,
-              image: obj[key].image,
-            });
+            if (obj[key].image != '') {
+              tempArr.push({
+                name: obj[key].name,
+                image: obj[key].image,
+              });
+            }
           }
           this.setState({feed: tempArr.reverse()});
           tempArr = [];

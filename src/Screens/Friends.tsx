@@ -33,12 +33,14 @@ class Friends extends Component {
         tempArr = [];
         let obj = snapshot.val();
         for (let key in obj) {
-          tempArr.push({
-            name: obj[key].name,
-          });
+          tempArr.push(obj[key].name);
         }
         this.setState({friendList: tempArr});
       });
+  };
+
+  onlyUnique = (value, index, self) => {
+    return self.indexOf(value) === index;
   };
 
   render() {
@@ -49,7 +51,7 @@ class Friends extends Component {
             style={{
               width: Dimensions.get('window').width,
             }}
-            data={this.state.friendList}
+            data={this.state.friendList.filter(this.onlyUnique)}
             extraData={this.state.friendList}
             numColumns={3}
             renderItem={({item}) => (
@@ -83,12 +85,12 @@ class Friends extends Component {
                     style={{
                       color: '#fff',
                     }}>
-                    {item.name[0]}
+                    {item[0]}
                   </Text>
                 </View>
 
                 <View style={{flex: 1}}>
-                  <Text>{item.name}</Text>
+                  <Text>{item}</Text>
                 </View>
               </TouchableOpacity>
             )}
