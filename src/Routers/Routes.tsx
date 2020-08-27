@@ -27,7 +27,12 @@ interface StackNavigatorProps {
 
 const Tabs = () => {
   return (
-    <Tab.Navigator initialRouteName={'Dashboard'}>
+    <Tab.Navigator initialRouteName={'Dashboard'}
+    tabBarOptions={{
+      activeBackgroundColor: '#1E9FD8',
+      inactiveBackgroundColor: 'gray',
+      
+    }}>
       <Tab.Screen
         name="Dashboard"
         component={HomeScreen}
@@ -43,7 +48,7 @@ const Tabs = () => {
               style={{height: 32, width: 32}}
               resizeMethod={'resize'}
               resizeMode={'contain'}
-              source={require('../assets/fishingHome.png')}
+              source={require('../assets/home4.png')}
             />
           ),
         }}

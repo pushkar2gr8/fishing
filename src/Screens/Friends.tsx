@@ -53,7 +53,7 @@ class Friends extends Component {
             }}
             data={this.state.friendList.filter(this.onlyUnique)}
             extraData={this.state.friendList}
-            numColumns={3}
+            numColumns={1}
             renderItem={({item}) => (
               <TouchableOpacity
                 style={{
@@ -66,31 +66,48 @@ class Friends extends Component {
                   shadowOpacity: 0.5,
                   shadowRadius: 2,
                   elevation: 2,
-                  margin: 5,
+                  marginLeft: 20,
+                  marginRight: 20,
+                  marginBottom: 10,
                 }}
                 onPress={() =>
-                  this.setState({isModalVisible: true, name: item.name})
+                  this.setState({isModalVisible: true, name: item})
                 }>
                 <View
                   style={{
-                    height: 40,
-                    width: 40,
-                    borderRadius: 20,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: theme.colors.primary,
-                    margin: 10,
+                    width: '100%',
+                    flexDirection: 'row',
+                    marginLeft: 5,
+                    marginRight: 5,
                   }}>
-                  <Text
+                  <View
                     style={{
-                      color: '#fff',
+                      height: 40,
+                      width: 40,
+                      borderRadius: 20,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#1D8AB5',
+                      margin: 10,
                     }}>
-                    {item[0]}
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        color: '#fff',
+                        backgroundColor: '#1D8AB5',
+                      }}>
+                      {item[0]}
+                    </Text>
+                  </View>
 
-                <View style={{flex: 1}}>
-                  <Text>{item}</Text>
+                  <View style={{flex: 1, height: 40, paddingTop: 5}}>
+                    <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+                      {item}
+                    </Text>
+                    <Text style={{fontSize: 12}}>
+                      <Text style={{fontWeight: 'bold'}}>Fishing level:</Text>{' '}
+                      Pro, <Text style={{fontWeight: 'bold'}}>City:</Text> Texas
+                    </Text>
+                  </View>
                 </View>
               </TouchableOpacity>
             )}

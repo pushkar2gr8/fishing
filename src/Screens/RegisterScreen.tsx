@@ -78,7 +78,7 @@ const RegisterScreen = ({navigation}: any) => {
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate('HomeScreen')} />
+      {/* <BackButton goBack={() => navigation.navigate('HomeScreen')} /> */}
 
       <Logo />
 
@@ -117,10 +117,21 @@ const RegisterScreen = ({navigation}: any) => {
         errorText={password.error}
         secureTextEntry
       />
-
-      <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
+<View style={{ padding: 0, width: 300, }}>
+<TouchableOpacity
+          onPress={_onSignUpPressed}
+          style={{
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            marginTop: 20,
+            height: 35
+          }}>
+          <Text style={{fontSize: 16, marginTop:4, color: '#1D8AB5'}}>Sign Up</Text>
+        </TouchableOpacity>
+        </View>
+      {/* <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
         Sign Up
-      </Button>
+      </Button> */}
 
       <View style={styles.row}>
         <Text style={styles.label}>Already have an account? </Text>
@@ -134,7 +145,7 @@ const RegisterScreen = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   label: {
-    color: theme.colors.secondary,
+    color: '#fff',
   },
   button: {
     marginTop: 24,
@@ -145,7 +156,7 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
+    color: '#fff',
   },
 });
 

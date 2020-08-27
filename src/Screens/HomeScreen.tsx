@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  Image
 } from 'react-native';
 import {Card, Avatar, IconButton, Button} from 'react-native-paper';
 import {theme} from '../core/theme';
@@ -115,7 +116,7 @@ class HomeScreen extends Component {
       <Background>
         <Loader isLoading={this.state.isLoading} />
         <SafeAreaView>
-          <View
+          {/* <View
             style={{
               height: 50,
               alignItems: 'center',
@@ -123,15 +124,16 @@ class HomeScreen extends Component {
               backgroundColor: 'white',
             }}>
             <Text style={{fontSize: 20}}>Fishing gallery</Text>
-          </View>
+          </View> */}
           <FlatList
             style={{
-              width: Dimensions.get('window').width,
+              width: Dimensions.get('window').width - 40,
             }}
             data={this.state.feed}
             extraData={this.state.feed}
-            numColumns={2}
+            numColumns={1}
             renderItem={({item}) => (
+              <View style={{backgroundColor: '#F4F4F4', paddingLeft:5, paddingRight:5, marginBottom: 10 }}>
               <Card
                 style={{flex: 1, margin: 5}}
                 onPress={() =>
@@ -148,7 +150,7 @@ class HomeScreen extends Component {
                     alignItems: 'center',
                   }}>
                   <Avatar.Text
-                    style={{marginLeft: 10}}
+                    style={{marginLeft: 10, backgroundColor: '#1D8AB5'}}
                     size={25}
                     label={item.name[0]}
                   />
@@ -161,6 +163,7 @@ class HomeScreen extends Component {
                   source={{uri: item.image}}
                 />
               </Card>
+              </View>
             )}
             keyExtractor={(item, index) => 'key' + index}
           />
@@ -172,14 +175,13 @@ class HomeScreen extends Component {
             borderRadius: 30,
             position: 'absolute',
             zIndex: 999,
-            bottom: 20,
-            right: -20,
+            bottom: 0,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: theme.colors.primary,
+            backgroundColor: 'white',
           }}
           onPress={() => this.captureImage()}>
-          <Text style={{color: '#fff', fontSize: 28}}>+</Text>
+            <Image source={require('../assets/Camera.png')} style={{width: 60, height: 60,}}/>
         </TouchableOpacity>
       </Background>
     );

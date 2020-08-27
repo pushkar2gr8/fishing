@@ -1,9 +1,10 @@
 import React, {memo, useState} from 'react';
-import {TouchableOpacity, StyleSheet, Text, View, Alert} from 'react-native';
+import {TouchableOpacity, StyleSheet, Text, View, Alert, Button,} from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
-import Button from '../components/Button';
+import Button1 from '../components/Button';
 import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import {theme} from '../core/theme';
@@ -17,6 +18,7 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
   const [loading, setLoading] = useState({isLoading: false});
+  const [checked, setChecked] = useState({isChecked: false});
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -54,11 +56,12 @@ const LoginScreen = ({navigation}) => {
     }
   };
 
+  const [toggleCheckBox, setToggleCheckBox] = useState(false)
   return (
     <Background>
       <Logo />
 
-      <Header>Profishing</Header>
+      <Header>P R O F I S H I N G</Header>
 
       <Loader isLoading={loading.isLoading} />
 
@@ -85,17 +88,45 @@ const LoginScreen = ({navigation}) => {
         secureTextEntry
       />
 
-      <View style={styles.forgotPassword}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ForgotPasswordScreen')}>
-          <Text style={styles.label}>Forgot your password?</Text>
-        </TouchableOpacity>
+      <View style={{flexDirection: 'row', width:'100%'}}>
+        <View  style={{flexDirection: 'row',width:'50%'}}>
+          <CheckBox tintColors={{ true: 'white', false: 'white' }}
+            value={checked.isChecked}
+            onValueChange={(value) =>
+              setChecked({
+                isChecked: value,
+              })}></CheckBox>
+        <Text style={{color: '#fff', }}>Remeber Me</Text>
       </View>
-
-      <Button mode="contained" onPress={_onLoginPressed}>
+      
+        
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ForgotPasswordScreen')}
+          style={{ width:'50%' }}>
+          <Text style={{color: '#fff', textAlign:'right'}}>Forgot password</Text>
+        </TouchableOpacity>
+      
+      </View>
+      {/* <Button1 mode="contained" onPress={_onLoginPressed}>
         Login
-      </Button>
-
+      </Button1> */}
+<View style={{ padding: 0, width: 300, }}>
+<TouchableOpacity
+          onPress={_onLoginPressed}
+          style={{
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            marginTop: 20,
+            height: 35
+          }}>
+          <Text style={{fontSize: 16, marginTop:4, color: '#1D8AB5'}}>Login</Text>
+        </TouchableOpacity>
+{/* <Button 
+            title={'Login'}
+            color="#1F81A4"
+          onPress={_onLoginPressed}
+          /> */}
+</View>
       <View style={styles.row}>
         <Text style={styles.label}>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
@@ -117,11 +148,11 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   label: {
-    color: theme.colors.secondary,
+    color: '#fff',
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
+    color: '#fff',
   },
 });
 

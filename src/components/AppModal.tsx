@@ -37,7 +37,7 @@ const AppModal = (props: appModalProps) => {
               backgroundColor: '#fff',
               borderRadius: 10,
             }}>
-            <Avatar.Text size={40} label={props.name[0]} />
+            <Avatar.Text size={40} label={props.name[0]} style={{backgroundColor: '#1D8AB5'}}/>
             <Text style={{fontSize: 16, alignSelf: 'center', marginTop: 10}}>
               {props.name}
             </Text>
